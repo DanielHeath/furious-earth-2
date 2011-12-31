@@ -1,0 +1,4 @@
+.git
+*.swp
+public/javascripts/*.js
+public/stylesheets/*.css
