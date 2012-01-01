@@ -1,10 +1,11 @@
 sio = require("socket.io")
 
 exports.listen = (app) ->
-
   io = sio.listen(app)
   nicknames = {}
+
   io.sockets.on "connection", (socket) ->
+
     socket.on "user message", (msg) ->
       socket.broadcast.emit "user message", socket.nickname, msg
 
