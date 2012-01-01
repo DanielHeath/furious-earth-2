@@ -14,7 +14,7 @@ app.configure ->
   )
 
   app.use stylus.middleware(
-    src: __dirname + "/public/stylesheets"
+    src: __dirname + "/public"
     compile: (str, path) -> stylus(str).set("filename", path).use nib()
   )
   app.use express.static(__dirname + "/public")
