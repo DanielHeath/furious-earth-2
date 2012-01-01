@@ -26,13 +26,19 @@ socket.on "error", (e) ->
 
 $ ->
   clear = -> $("#message").val("").focus()
+
+  $("#set-nickname input").keydown (event) ->
+    if "#{event.keyCode}" is "13"
+      $("#set-nickname").submit()
+      event.preventDefault()
+      false
+
   $("#set-nickname").submit (ev) ->
-    socket.emit "nickname", $("#nick").val(), (set) ->
-      unless set
+    socket.emit "join", $("#nick").val(), $("#game").val(), (err_element) ->
+      unless err_element
         clear()
         return $("#chat").addClass("nickname-set")
-      $("#nickname-err").css "visibility", "visible"
-
+      $(err_element).css "visibility", "visible"
     false
 
   $("#send-message").submit ->
