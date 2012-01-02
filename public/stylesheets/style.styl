@@ -1,6 +1,6 @@
 @import 'nib'
 
-#chat, #nickname, #messages
+#chat, .nickname, .messages
   width 300px
 
 #chat
@@ -8,7 +8,7 @@
   border 1px solid #ccc
   float: right
 
-#nickname, #connecting
+.nickname, .connecting
   position absolute
   height 410px
   z-index 100
@@ -23,27 +23,27 @@
   .wrap
     padding-top 150px
 
-#nickname
+.nickname
   input
     border 1px solid #ccc
     padding 10px
     &:focus
       border-color #999
       outline 0
-  #nickname-err, #gamename-err
+  .nickname-err, .gamename-err
     color darkred
     font-size 12px
     visibility hidden
 
 .connected
-  #connecting
+  .connecting
     display none
 
 .nickname-set
-  #nickname
+  .nickname
     display none
 
-#messages
+.messages
   height 380px
   background #eee
   em
@@ -59,7 +59,7 @@
       padding-right 10px
   p:nth-child(even)
     background #fafafa
-  #nicknames
+  .nicknames
     background #ccc
     padding 2px 4px 4px
     font 11px Helvetica
@@ -73,7 +73,7 @@
       margin-right 5px
       border-radius 10px
       text-shadow 0 1px 0 #666
-  #lines
+  .lines
     height 355px
     overflow auto
     overflow-x hidden
@@ -98,7 +98,7 @@
       background-color #fff
       -webkit-border-radius 3px
 
-#send-message
+.send-message
   background #fff
   position relative
   input
