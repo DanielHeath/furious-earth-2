@@ -73,7 +73,7 @@ class Chat extends Backbone.View
 
   _submitOnEnterKey: (event) ->
     if "#{event.keyCode}" is "13"
-      @$(".set-nickname").submit()
+      @setNickname()
       event.preventDefault()
       false
 
