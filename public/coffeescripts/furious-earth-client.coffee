@@ -33,7 +33,6 @@ $ ->
 
   FuriousEarth.socket.bind 'change:state', (state) ->
 
-
     for player in state.players
       # Re-use drawings of ships so we're not constantly recreating them...
       drawingsOfShips[player.color] ?= r.ellipse(

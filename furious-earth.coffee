@@ -8,7 +8,6 @@ nextId = ->
 allGames = []
 
 # Constants (as percentage of playing field)
-ShipRadius = 5
 TickDuration = 25
 
 module.exports = class Game
@@ -35,7 +34,6 @@ module.exports = class Game
     player.socket for sid, player of @_players
 
   tick: =>
-
     for sid, player of @_players
       player.tick()
 
@@ -62,31 +60,4 @@ module.exports = class Game
       players: player.state() for sid, player of @_players
     }
 
-class Player
-  constructor: (opts) ->
-    @keys = []
-    @socket = opts.socket
-    @color = opts.color
-    [@px, @py] = opts.position
-    @dx = @dy = 0
-    @health = 100 # Everything in percentages keeps it classy
-
-  keysPressed: (@keys) ->
-
-  tick: ->
-    @dy -= 0.3 if "up" in @keys
-    @dy += 0.3 if "down" in @keys
-    @dx += 0.3 if "right" in @keys
-    @dx -= 0.3 if "left" in @keys
-
-    @px += @dx
-    @py += @dy
-
-  state: ->
-    {
-      color: @color
-      health: @health
-      px: @px
-      py: @py
-      radius: ShipRadius
-    }
+Player = require './furious-earth/player'
