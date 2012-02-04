@@ -15,10 +15,7 @@ class FuriousEarth
 
   @socket: new Socket()
 
-
 $ ->
-
-
   validKeys = ["up", "down", "left", "right", "ctrl"]
 
   onKeysChanged = ->
