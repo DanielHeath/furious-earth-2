@@ -31,6 +31,10 @@ module.exports = class Game
   sockets: ->
     player.socket for sid, player of @_players
 
+  sendGameState: ->
+    for socket in @sockets()
+      socket.volatile.emit("gstate", @gameState())
+
   playerConnected: (socket) ->
     @_players[socket.id] = new Player(
       socket: socket
@@ -47,8 +51,6 @@ module.exports = class Game
       players: player.state() for sid, player of @_players
     }
 
-
-
 class Player
   constructor: (opts) ->
     @socket = opts.socket
@@ -64,4 +66,5 @@ class Player
       health: @health
       px: @px
       py: @py
+      radius: ShipRadius
     }

@@ -1,3 +1,4 @@
+
 class FuriousEarth
 
   class Socket extends Backbone.Model
@@ -16,16 +17,30 @@ class FuriousEarth
   @socket: new Socket()
 
 $ ->
+  height = document.body.clientHeight
+  width = document.body.clientWidth
   validKeys = ["up", "down", "left", "right", "ctrl"]
 
-  onKeysChanged = ->
+  onKeysChanged = (e) ->
+    e.preventDefault()
     FuriousEarth.socket.sendKeys _.intersection(validKeys, KeyboardJS.activeKeys())
 
   for key in validKeys
     KeyboardJS.bind.key key, onKeysChanged, onKeysChanged
 
-  FuriousEarth.socket.bind 'change:state', ->
-    $('body').append("<p>#{JSON.stringify(arguments)}</p>")
+  window.paper = r = Raphael "canvas", width, height
 
-  Raphael "canvas", document.width, document.height, ->
-    @rect( 10, 10, 25, 25).attr stroke: "#f00", fill: "#000"
+  FuriousEarth.socket.bind 'change:state', (state) ->
+    r.clear()
+    for player in state.players
+
+      console.log "Drawing #{player.color} player at #{player.px * width / 100}, #{player.py * height / 100}"
+      r.ellipse(
+        Math.floor(player.px * width / 100),
+        Math.floor(player.py * height / 100),
+        Math.floor(player.radius * width / 100),
+        Math.floor(player.radius * height / 100)
+      ).attr(fill: player.color)
+    console.log arguments
+
+
