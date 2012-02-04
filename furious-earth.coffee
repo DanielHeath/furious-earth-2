@@ -1,3 +1,4 @@
+_ = require('underscore')
 
 # Game IDs
 firstId = 1
@@ -33,9 +34,18 @@ module.exports = class Game
   sockets: ->
     player.socket for sid, player of @_players
 
+  players: ->
+    player for sid, player of @_players
+
   tick: =>
-    for sid, player of @_players
-      player.tick()
+    players = @players()
+    for player in players
+      player.accellerate()
+    for player in players
+      player.collideWithWalls()
+
+    while player = players.pop()
+      player.collideWithPlayers(players)
 
     @sendGameState()
 
@@ -48,6 +58,7 @@ module.exports = class Game
       socket: socket
       color: @_playerColors[@numPlayers]
       position: @_startPositions[@numPlayers]
+      game: this
     )
     @numPlayers++
 
