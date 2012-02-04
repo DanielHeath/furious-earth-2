@@ -13,6 +13,13 @@ exports.listen = (app, Game) ->
   io.sockets.on "connection", (socket) ->
     socket.game = gameFromUrl(Game, socket.handshake.headers.referer)
     socket.game.playerConnected(socket)
+
+    socket.emit "gstate", socket.game.gameState()
+
     socket.on "keys", (keys) ->
-      socket.game.playerInput(socket, keys)
-      io.sockets.volatile.emit "gstate", socket.game.gameState()
+      return unless @game
+      @game.playerInput(@, keys)
+
+      for socket in @game.sockets()
+        socket.volatile.emit("gstate", @game.gameState())
+

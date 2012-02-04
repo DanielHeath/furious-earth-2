@@ -28,6 +28,9 @@ module.exports = class Game
     @salt = "#{ Math.floor(Math.random()*10000001) }"
     allGames[@id] = @
 
+  sockets: ->
+    player.socket for sid, player of @_players
+
   playerConnected: (socket) ->
     @_players[socket.id] = new Player(
       socket: socket
