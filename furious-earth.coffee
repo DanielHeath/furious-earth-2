@@ -9,6 +9,7 @@ allGames = []
 
 # Constants (as percentage of playing field)
 ShipRadius = 5
+TickDuration = 25
 
 module.exports = class Game
 
@@ -28,7 +29,7 @@ module.exports = class Game
     @salt = "#{ Math.floor(Math.random()*10000001) }"
     allGames[@id] = @
 
-    @updatePlayersInterval = setInterval(@tick, 25)
+    @updatePlayersInterval = setInterval(@tick, TickDuration)
 
   sockets: ->
     player.socket for sid, player of @_players
@@ -57,6 +58,7 @@ module.exports = class Game
 
   gameState: ->
     {
+      tickDuration: TickDuration
       players: player.state() for sid, player of @_players
     }
 
