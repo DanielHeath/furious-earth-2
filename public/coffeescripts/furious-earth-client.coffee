@@ -20,6 +20,7 @@ $ ->
   height = document.body.clientHeight
   width = document.body.clientWidth
   validKeys = ["up", "down", "left", "right", "ctrl"]
+  drawingsOfShips = {}
 
   onKeysChanged = (e) ->
     e.preventDefault()
@@ -31,16 +32,21 @@ $ ->
   window.paper = r = Raphael "canvas", width, height
 
   FuriousEarth.socket.bind 'change:state', (state) ->
-    r.clear()
-    for player in state.players
 
-      console.log "Drawing #{player.color} player at #{player.px * width / 100}, #{player.py * height / 100}"
-      r.ellipse(
+
+    for player in state.players
+      # Re-use drawings of ships so we're not constantly recreating them...
+      drawingsOfShips[player.color] ?= r.ellipse(
         Math.floor(player.px * width / 100),
         Math.floor(player.py * height / 100),
         Math.floor(player.radius * width / 100),
         Math.floor(player.radius * height / 100)
-      ).attr(fill: player.color)
-    console.log arguments
+      )
+      drawingsOfShips[player.color].attr(fill: player.color)
+      drawingsOfShips[player.color].attr
+        cx: Math.floor(player.px * width / 100)
+        cy: Math.floor(player.py * height / 100)
+
+
 
 
