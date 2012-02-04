@@ -28,8 +28,17 @@ module.exports = class Game
     @salt = "#{ Math.floor(Math.random()*10000001) }"
     allGames[@id] = @
 
+    @updatePlayersInterval = setInterval(@tick, 25)
+
   sockets: ->
     player.socket for sid, player of @_players
+
+  tick: =>
+
+    for sid, player of @_players
+      player.tick()
+
+    @sendGameState()
 
   sendGameState: ->
     for socket in @sockets()
@@ -53,12 +62,23 @@ module.exports = class Game
 
 class Player
   constructor: (opts) ->
+    @keys = []
     @socket = opts.socket
     @color = opts.color
     [@px, @py] = opts.position
+    @dx = @dy = 0
     @health = 100 # Everything in percentages keeps it classy
 
-  keysPressed: (keys) ->
+  keysPressed: (@keys) ->
+
+  tick: ->
+    @dy -= 0.3 if "up" in @keys
+    @dy += 0.3 if "down" in @keys
+    @dx += 0.3 if "right" in @keys
+    @dx -= 0.3 if "left" in @keys
+
+    @px += @dx
+    @py += @dy
 
   state: ->
     {
