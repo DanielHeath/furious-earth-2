@@ -1,27 +1,21 @@
 doctype 5
 html
   head
-    title Furious Earth
+    - if (game)
+      title= game.id
+    - else
+      title= "Game not found"
     link(href='/stylesheets/style.css', rel='stylesheet')
     script(src='http://code.jquery.com/jquery-1.6.1.min.js')
     script(src='/socket.io/socket.io.js')
     script(src='/vendor/underscore.js')
     script(src='/vendor/backbone-0.5.3.js')
-    script(src='/javascripts/chat.js')
+    script(src='/vendor/keyboard.0.2.2.min.js')
+    script(src='/vendor/raphael-2.0.1.js')
+
+    script(src='/javascripts/furious-earth-client.js')
   body
-    #chat
-      .nickname
-        form.wrap.set-nickname
-          p Please type in your nickname & a game name and press enter.
-          input.nick(placeholder='nickname')
-          input.game(placeholder='game name')
-          p.nickname-err Nickname already in use
-          p.gamename-err Game is full
-      .connecting
-        .wrap Connecting to socket.io server
-      .messages
-        .nicknames
-        .lines
-      form.send-message
-        input.message
-        button Send
+    - if (!game)
+      p "This game doesn't exist!"
+    - else
+      div#canvas &nbsp;
