@@ -1,4 +1,4 @@
-ShipRadius = 5
+ShipRadius = 4
 
 module.exports = class Player
   constructor: (opts) ->
